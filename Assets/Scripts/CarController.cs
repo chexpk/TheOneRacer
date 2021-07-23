@@ -7,10 +7,22 @@ public class CarController : MonoBehaviour
 
     public float carSpeed;
     public float steerAngle;
+    public Transform centerOfMass;
 
     private float horInput;
     private float vertInput;
 
+    Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        rb.centerOfMass = centerOfMass.localPosition;
+    }
 
     private void FixedUpdate()
     {
