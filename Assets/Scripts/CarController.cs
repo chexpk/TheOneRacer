@@ -34,6 +34,17 @@ public class CarController : MonoBehaviour
                 axle.rightWheel.motorTorque = carSpeed * vertInput;
                 axle.leftWheel.motorTorque = carSpeed * vertInput;
             }
+
+            VisualWheelsToColliders(axle.rightWheel, axle.visRightWheel);
+            VisualWheelsToColliders(axle.leftWheel, axle.visLeftWheel);
         }
+    }
+
+    void VisualWheelsToColliders(WheelCollider col, Transform visWheel)
+    {
+        col.GetWorldPose(out var position, out var rotation);
+
+        visWheel.position = position;
+        visWheel.rotation = rotation;
     }
 }
