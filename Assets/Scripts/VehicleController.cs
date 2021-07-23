@@ -1,61 +1,109 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class VehicleController : MonoBehaviour
 {
-    public Rigidbody rb;
 
     [Header("Controls")]
-    public float Accel;
-    public float Brake;
-    public float Steering;
+    public float accel;
+    public float brake;
+    public float steering;
 
     [Header("Vehicle Settings")]
-    public float EnginPower = 250f;
-    public float BrakeForce = 1500f;
-    public float SteerAngle = 35f;
+    public float enginePower = 250f;
+    public float brakeForce = 1500f;
+    public float steerAngle = 45f;
 
     [Header("Wheels")]
-    public WheelCollider[] FrontWheels;
-    public WheelCollider[] RearWheels;
+    public WheelCollider[] frontWheels;
+    public WheelCollider[] rearWheels;
+    public WheelCollider frWheels;
+    public WheelCollider flWheels;
+    public WheelCollider rrWheels;
+    public WheelCollider rlWheels;
 
-    public Vector3 COM;
-    // Start is called before the first frame update
-    void Start()
+
+    public Vector3 centreOfMass;
+
+    public Transform frWheelTransform;
+    public Transform flWheelTransform;
+    public Transform rrWheelTransform;
+    public Transform rlWheelTransform;
+
+    Rigidbody rb;
+
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = COM;
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+         rb.centerOfMass = centreOfMass;
+    }
+
     void Update()
     {
-        Accel = Input.GetAxis("Vertical");
-        Brake = Input.GetAxis("Jump");
-        Steering = Input.GetAxis("Horizontal");
+        RenderAllWheels();
+    }
 
-        foreach (var wheel in FrontWheels)
+    void FixedUpdate()
+    {
+        Control();
+        Engine();
+    }
+
+    void Control()
+    {
+
+        accel = Input.GetAxis("Vertical");
+        brake = Input.GetAxis("Jump");
+        steering = Input.GetAxis("Horizontal");
+
+        foreach (var wheel in frontWheels)
         {
-            wheel.motorTorque = EnginPower * Accel;
+            wheel.motorTorque = enginePower * accel;
         }
-        foreach (var wheel in RearWheels)
+        foreach (var wheel in rearWheels)
         {
-            wheel.motorTorque = EnginPower * Accel;
+            wheel.motorTorque = enginePower * accel;
         }
 
-        foreach (var wheel in FrontWheels)
+        // foreach (var wheel in frontWheels)
+        // {
+        //     wheel.brakeTorque = brakeForce * brake;
+        // }
+        foreach (var wheel in rearWheels)
         {
-            wheel.brakeTorque = BrakeForce * Brake;
-        }
-        foreach (var wheel in RearWheels)
-        {
-            wheel.brakeTorque = BrakeForce * Brake;
+            wheel.brakeTorque = brakeForce * brake;
         }
 
-        foreach (var wheel in FrontWheels)
+        foreach (var wheel in frontWheels)
         {
-            wheel.steerAngle = SteerAngle * Steering;
+            wheel.steerAngle = steerAngle * steering;
         }
+    }
+
+    void RenderAllWheels()
+    {
+        RenderWheel(frWheelTransform, frWheels);
+        RenderWheel(flWheelTransform, flWheels);
+        RenderWheel(rrWheelTransform, rrWheels);
+        RenderWheel(rlWheelTransform, rlWheels);
+    }
+
+    void RenderWheel(Transform wheelRender, WheelCollider wheelCollider)
+    {
+        wheelCollider.GetWorldPose(out var position, out var quaternion);
+        wheelRender.position = position;
+        wheelRender.rotation = quaternion;
+    }
+
+    void Engine()
+    {
+
     }
 }
