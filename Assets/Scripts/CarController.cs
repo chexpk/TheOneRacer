@@ -12,6 +12,11 @@ public class CarController : MonoBehaviour
     public float nitroPower;
     public GameObject nitroEffects;
 
+    [Header("Smoke From Tiers")]
+    public float minSpeedForSmoke;
+    public float minAngleForSmoke;
+    public ParticleSystem[] tireSmokeEffects;
+
     [Range(0,1)]
     public float steerHelpValue = 0;
 
@@ -38,6 +43,8 @@ public class CarController : MonoBehaviour
         CheckOnGround();
         Accelerate();
         NitroManager();
+        ManageHardBreak();
+        EmitSmokeTiers();
         SteerHelper();
     }
 
@@ -108,6 +115,52 @@ public class CarController : MonoBehaviour
             {
                 nitroEffects.SetActive(false);
             }
+        }
+    }
+
+    void ManageHardBreak()
+    {
+        foreach(var axle in carAxis)
+        {
+            if(Input.GetKey(KeyCode.Space))
+            {
+                axle.rightWheel.brakeTorque = 50000;
+                axle.leftWheel.brakeTorque = 50000;
+            }
+            else
+            {
+                axle.rightWheel.brakeTorque = 0;
+                axle.leftWheel.brakeTorque = 0;
+            }
+        }
+    }
+
+    void EmitSmokeTiers()
+    {
+        if (rb.velocity.magnitude > minSpeedForSmoke)
+        {
+            float angle = Quaternion.Angle(Quaternion.LookRotation(rb.velocity, Vector3.up), Quaternion.LookRotation(transform.forward, Vector3.up));
+            if (angle > minAngleForSmoke && angle < 160 && isOnground)
+            {
+                SwitchSmokeParticles(true);
+            }
+            else
+            {
+                SwitchSmokeParticles(false);
+            }
+        }
+        else
+        {
+            SwitchSmokeParticles(false);
+        }
+    }
+
+    void SwitchSmokeParticles(bool enable)
+    {
+        foreach (var ps in tireSmokeEffects)
+        {
+            ParticleSystem.EmissionModule psEm = ps.emission;
+            psEm.enabled = enable;
         }
     }
 }
