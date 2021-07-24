@@ -10,6 +10,7 @@ public class CarController : MonoBehaviour
     public float steerAngle;
     public Transform centerOfMass;
     public float nitroPower;
+    public GameObject nitroEffects;
 
     [Range(0,1)]
     public float steerHelpValue = 0;
@@ -99,10 +100,14 @@ public class CarController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && vertInput > 0.01f)
         {
             rb.AddForce(transform.forward * nitroPower);
+            nitroEffects.SetActive(true);
         }
         else
         {
-
+            if (nitroEffects.activeSelf)
+            {
+                nitroEffects.SetActive(false);
+            }
         }
     }
 }
