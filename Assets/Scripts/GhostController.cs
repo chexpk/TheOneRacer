@@ -7,15 +7,18 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
     public Transform targetObject;
-    public GameObject ghostCar;
+    public Transform ghostCar;
+    public Ghost ghostScript;
 
     public float recordPeriod = 0.5f;
     public float nextActionTime = 0f;
 
     List<PointInGhostTime> ghostPointsInTime;
+    List<PointInGhostTime> oldGhostPointsInTime;
 
     bool isRecord = false;
     bool isReplaying = false;
+    bool isGhostPointReplaying = false;
 
     // Transform targetPosition;
     // Quaternion targetRotation;
@@ -51,6 +54,11 @@ public class GhostController : MonoBehaviour
                 isReplaying = true;
             }
         }
+
+        if (isGhostPointReplaying)
+        {
+
+        }
     }
 
     private void FixedUpdate()
@@ -80,20 +88,31 @@ public class GhostController : MonoBehaviour
         if (Time.time > nextActionTime)
         {
             nextActionTime = Time.time + recordPeriod;
-            if (ghostPointsInTime.Count > 0)
+            if (oldGhostPointsInTime.Count > 1)
             {
-                PointInGhostTime pointInTime = ghostPointsInTime[0];
-                ghostCar.transform.position = pointInTime.position;
-                // Debug.Log(pointInTime.position);
-                ghostCar.transform.rotation = pointInTime.rotation;
-                // Debug.Log(pointInTime.rotation);
-                ghostPointsInTime.RemoveAt(0);
+                ghostScript.SetPointInGhostTime(oldGhostPointsInTime[0], oldGhostPointsInTime[1], recordPeriod);
+                oldGhostPointsInTime.RemoveAt(0);
             }
             else
             {
                 isReplaying = false;
+                ghostScript.SetReplaying(false);
             }
         }
+    }
 
+    public void StartRecord()
+    {
+        if (!isRecord)
+        {
+            isRecord = true;
+            nextActionTime = 0;
+        }
+        else
+        {
+            oldGhostPointsInTime = ghostPointsInTime;
+            isReplaying = true;
+            ghostPointsInTime = new List<PointInGhostTime>();
+        }
     }
 }

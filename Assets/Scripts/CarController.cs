@@ -135,7 +135,7 @@ public class CarController : MonoBehaviour
         }
     }
 
-    void EmitSmokeTiers()
+    void EmitSmokeTiers() //GetGroundHit(out WheelHit hit) - чекнуть через этот метод
     {
         if (rb.velocity.magnitude > minSpeedForSmoke)
         {
