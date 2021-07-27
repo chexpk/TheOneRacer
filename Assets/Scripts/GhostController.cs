@@ -15,10 +15,12 @@ public class GhostController : MonoBehaviour
 
     List<PointInGhostTime> ghostPointsInTime;
     List<PointInGhostTime> oldGhostPointsInTime;
+    List<List<PointInGhostTime>> allGhostPointsInTime;
 
     bool isRecord = false;
     bool isReplaying = false;
     bool isGhostPointReplaying = false;
+    int indexInList = 0;
 
     // Transform targetPosition;
     // Quaternion targetRotation;
@@ -54,11 +56,6 @@ public class GhostController : MonoBehaviour
                 isReplaying = true;
             }
         }
-
-        if (isGhostPointReplaying)
-        {
-
-        }
     }
 
     private void FixedUpdate()
@@ -88,15 +85,17 @@ public class GhostController : MonoBehaviour
         if (Time.time > nextActionTime)
         {
             nextActionTime = Time.time + recordPeriod;
-            if (oldGhostPointsInTime.Count > 1)
+
+            if (oldGhostPointsInTime.Count - 2 > indexInList)
             {
-                ghostScript.SetPointInGhostTime(oldGhostPointsInTime[0], oldGhostPointsInTime[1], recordPeriod);
-                oldGhostPointsInTime.RemoveAt(0);
+                ghostScript.SetPointInGhostTime(oldGhostPointsInTime[indexInList], oldGhostPointsInTime[indexInList + 1], recordPeriod);
+                indexInList += 1;
+                // oldGhostPointsInTime.RemoveAt(0);
             }
             else
             {
                 isReplaying = false;
-                ghostScript.SetReplaying(false);
+                // ghostScript.SetReplaying(false);
             }
         }
     }
@@ -110,9 +109,13 @@ public class GhostController : MonoBehaviour
         }
         else
         {
-            oldGhostPointsInTime = ghostPointsInTime;
             isReplaying = true;
+
+            oldGhostPointsInTime = ghostPointsInTime;
+            Debug.Log(oldGhostPointsInTime.Count);
+
             ghostPointsInTime = new List<PointInGhostTime>();
+            indexInList = 0;
         }
     }
 }
