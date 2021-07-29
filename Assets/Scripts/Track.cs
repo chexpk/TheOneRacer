@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+[Serializable]
 public class Track
 {
     public List<PointInGhostTime> track = new List<PointInGhostTime>();
@@ -39,52 +41,50 @@ public class Track
          return track[Count() - 1].pointTime;
     }
 
-    public void GetGhostParametersInPointTime(float timeInTrack, out Vector3 position, out Quaternion rotation)
+    public bool GetGhostParametersInPointTime(float timeInTrack, out Vector3 position, out Quaternion rotation)
     {
-        int fromPointIndex;
-        int toPointIndex;
-        GetNearestPoints(timeInTrack,  out fromPointIndex, out toPointIndex);
+        position = new Vector3(0,0,0);
+        rotation = new Quaternion(0,0,0, 0);
 
-        var fromPoint = GetPointByIndex(fromPointIndex);
-        var toPoint = GetPointByIndex(toPointIndex);
-
-        float durationTimeBetweenPoints = toPoint.pointTime - fromPoint.pointTime;
-
-        position = Vector3.Lerp(fromPoint.position, toPoint.position, timeInTrack / durationTimeBetweenPoints);
-        rotation = Quaternion.Lerp(fromPoint.rotation, toPoint.rotation, timeInTrack / durationTimeBetweenPoints);
-
-        if (fromPointIndex == 0 && toPointIndex == 0)
+        PointInGhostTime fromPoint;
+        PointInGhostTime toPoint;
+        if (!GetNearestPoints(timeInTrack, out fromPoint, out toPoint))
         {
-            Debug.Log("ошибка");
+            Debug.Log("не нашел в треке поинты");
+            return false;
         }
+
+        if (track[track.Count - 1].pointTime < timeInTrack)
+        {
+            return false;
+        }
+
+        float durationTimeBetweenPoints = - toPoint.pointTime + fromPoint.pointTime;
+        float timeInPoint = fromPoint.pointTime - timeInTrack;
+
+        position = Vector3.Lerp(fromPoint.position, toPoint.position, timeInPoint / durationTimeBetweenPoints);
+        rotation = Quaternion.Lerp(fromPoint.rotation, toPoint.rotation, timeInPoint / durationTimeBetweenPoints);
+
+        return true;
     }
 
-    private void GetNearestPoints(float timeInTrack, out int fromPointIndex, out int toPointIndex)
+    private bool GetNearestPoints(float timeInTrack, out PointInGhostTime fromPoint, out PointInGhostTime toPoint)
     {
-        int from = 0;
-        int to = 0;
+        fromPoint = null;
+        toPoint = null;
 
-        int i = 0;
-        foreach (var point in track)
+        for (int i = 1; i <= track.Count() - 1; i++)
         {
-            if (timeInTrack <= point.pointTime)
+            if (timeInTrack <= track[i].pointTime)
             {
                 if (timeInTrack > GetPointByIndex(i - 1).pointTime)
                 {
-                    from = i - 1;
-                    to = i;
-                }
-                else
-                {
-                    from = i;
-                    to = i + 1;
+                    fromPoint = track[i - 1];
+                    toPoint = track[i];
+                    return true;
                 }
             }
-            i += 1;
         }
-
-        fromPointIndex = from;
-        toPointIndex = to;
-
+        return false;
     }
 }

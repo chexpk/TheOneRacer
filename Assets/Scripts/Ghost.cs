@@ -54,7 +54,11 @@ public class Ghost : MonoBehaviour
 
     public void SetParametersToGhostByTimeInTrack(float timeInTrack)
     {
-        currentTrack.GetGhostParametersInPointTime(timeInTrack, out var position, out var rotation);
+        if (!currentTrack.GetGhostParametersInPointTime(timeInTrack, out var position, out var rotation))
+        {
+            Debug.Log("нет позиции");
+            return;
+        }
         transform.position = position;
         transform.rotation = rotation;
     }
