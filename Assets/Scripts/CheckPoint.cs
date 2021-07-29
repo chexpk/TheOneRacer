@@ -7,7 +7,6 @@ public class CheckPoint : MonoBehaviour
 {
     [SerializeField]
     GhostController ghostController;
-    bool isPointMarked = false;
 
     void Start()
     {
@@ -24,14 +23,8 @@ public class CheckPoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            MarkPoint(true);
-            Debug.Log("запись началась");
+            Debug.Log("чек поинт");
             ghostController.StartRecord();
         }
-    }
-
-    void MarkPoint(bool status)
-    {
-        isPointMarked = status;
     }
 }

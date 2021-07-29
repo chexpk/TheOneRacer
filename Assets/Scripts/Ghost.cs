@@ -10,6 +10,8 @@ public class Ghost : MonoBehaviour
     bool isRepaying = false;
     float currTime = 0f;
 
+    Track currentTrack;
+
     private void Start()
     {
 
@@ -43,5 +45,17 @@ public class Ghost : MonoBehaviour
     public void SetReplaying(bool status)
     {
         isRepaying = status;
+    }
+
+    public void SetTrack(Track track)
+    {
+        currentTrack = track;
+    }
+
+    public void SetParametersToGhostByTimeInTrack(float timeInTrack)
+    {
+        currentTrack.GetGhostParametersInPointTime(timeInTrack, out var position, out var rotation);
+        transform.position = position;
+        transform.rotation = rotation;
     }
 }

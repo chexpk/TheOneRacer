@@ -6,10 +6,12 @@ public class PointInGhostTime
 {
     public Vector3 position;
     public Quaternion rotation;
+    public float pointTime;
 
-    public PointInGhostTime(Vector3 pos, Quaternion rot)
+    public PointInGhostTime(Vector3 positionOfTarget, Quaternion rotationOfTarget, float timeOfPoint)
     {
-        position = pos;
-        rotation = rot;
+        position = positionOfTarget;
+        rotation = rotationOfTarget;
+        pointTime = timeOfPoint;
     }
 }

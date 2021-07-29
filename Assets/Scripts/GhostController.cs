@@ -13,57 +13,65 @@ public class GhostController : MonoBehaviour
     public float recordPeriod = 0.5f;
     public float nextActionTime = 0f;
 
-    List<PointInGhostTime> ghostPointsInTime;
-    List<PointInGhostTime> oldGhostPointsInTime;
-    List<List<PointInGhostTime>> allGhostPointsInTime;
+    Track ghostPointsInTime;
+    Track oldGhostPointsInTime;
 
     bool isRecord = false;
     bool isReplaying = false;
     bool isGhostPointReplaying = false;
     int indexInList = 0;
 
+    float currTime = 0;
+
     // Transform targetPosition;
     // Quaternion targetRotation;
 
     void Start()
     {
-        ghostPointsInTime = new List<PointInGhostTime>();
+        // ghostPointsInTime = new Track();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     if (isRecord)
+        //     {
+        //         isRecord = false;
+        //         nextActionTime = 0;
+        //     }
+        //     else
+        //     {
+        //         isRecord = true;
+        //     }
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     if (isReplaying)
+        //     {
+        //         isReplaying = false;
+        //     }
+        //     else
+        //     {
+        //         isReplaying = true;
+        //     }
+        // }
+
+        currTime += Time.deltaTime;
+        if (isReplaying)
         {
-            if (isRecord)
-            {
-                isRecord = false;
-                nextActionTime = 0;
-            }
-            else
-            {
-                isRecord = true;
-            }
+            Replay2Revenge();
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (isReplaying)
-            {
-                isReplaying = false;
-            }
-            else
-            {
-                isReplaying = true;
-            }
-        }
     }
 
     private void FixedUpdate()
     {
-        if (isReplaying)
-        {
-            ReplayGhost();
-        }
+        // if (isReplaying)
+        // {
+        //     ReplayGhost();
+        // }
 
         if (isRecord)
         {
@@ -76,19 +84,20 @@ public class GhostController : MonoBehaviour
         if (Time.time > nextActionTime)
         {
             nextActionTime = Time.time + recordPeriod;
-            ghostPointsInTime.Add(new PointInGhostTime(targetObject.position, targetObject.rotation));
+            ghostPointsInTime.Add(new PointInGhostTime(targetObject.position, targetObject.rotation, Time.time));
         }
     }
 
+    //TODO создать подсчет времени внутри трека в воспроизведении
     void ReplayGhost()
     {
         if (Time.time > nextActionTime)
         {
             nextActionTime = Time.time + recordPeriod;
 
-            if (oldGhostPointsInTime.Count - 2 > indexInList)
+            if (oldGhostPointsInTime.Count() - 2 > indexInList)
             {
-                ghostScript.SetPointInGhostTime(oldGhostPointsInTime[indexInList], oldGhostPointsInTime[indexInList + 1], recordPeriod);
+                ghostScript.SetPointInGhostTime(oldGhostPointsInTime.GetPointByIndex(indexInList), oldGhostPointsInTime.GetPointByIndex(indexInList + 1), recordPeriod);
                 indexInList += 1;
                 // oldGhostPointsInTime.RemoveAt(0);
             }
@@ -100,22 +109,35 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    void Replay2Revenge()
+    {
+        ghostScript.SetParametersToGhostByTimeInTrack(currTime);
+    }
+
     public void StartRecord()
     {
+        //TODO ошибка - появляется пустой масссив на воспроизведение
         if (!isRecord)
         {
             isRecord = true;
             nextActionTime = 0;
+            ghostPointsInTime = new Track();
+            // задать значение стартового времени?
         }
         else
         {
             isReplaying = true;
 
             oldGhostPointsInTime = ghostPointsInTime;
-            Debug.Log(oldGhostPointsInTime.Count);
+            Debug.Log($"количество точек {oldGhostPointsInTime.Count()} ");
+            Debug.Log(oldGhostPointsInTime.startWorldTime);
+            Debug.Log(oldGhostPointsInTime.GetTrackTime());
 
-            ghostPointsInTime = new List<PointInGhostTime>();
+            ghostPointsInTime = new Track();
             indexInList = 0;
+
+            ghostScript.SetTrack(oldGhostPointsInTime);
+            currTime = 0;
         }
     }
 }
