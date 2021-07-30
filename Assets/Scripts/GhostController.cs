@@ -8,6 +8,10 @@ public class GhostController : MonoBehaviour
 {
     public Transform targetObject;
     public Transform ghostCar;
+    public Transform visualWheelFR;
+    public Transform visualWheelFL;
+    public Transform visualWheelRR;
+    public Transform visualWheelRL;
     public Ghost ghostScript;
 
     public float recordPeriod = 0.5f;
@@ -54,7 +58,9 @@ public class GhostController : MonoBehaviour
         if (Time.time > nextActionTime)
         {
             nextActionTime = Time.time + recordPeriod;
-            ghostPointsInTime.Add(new PointInGhostTime(targetObject.position, targetObject.rotation, Time.time));
+            var point = new PointInGhostTime(targetObject.position, targetObject.rotation, Time.time, visualWheelFR.localPosition, visualWheelFR.rotation, visualWheelFL.localPosition, visualWheelFL.rotation, visualWheelRR.localPosition, visualWheelRR.rotation, visualWheelRL.localPosition, visualWheelRL.rotation);
+            // ghostPointsInTime.Add(new PointInGhostTime(targetObject.position, targetObject.rotation, Time.time));
+            ghostPointsInTime.Add(point);
         }
     }
 
@@ -81,7 +87,8 @@ public class GhostController : MonoBehaviour
 
     void Replay2Revenge()
     {
-        ghostScript.SetParametersToGhostByTimeInTrack(currTime);
+        // ghostScript.SetParametersToGhostByTimeInTrack(currTime);
+        ghostScript.SetAllParametersToGhostByTimeInTrack(currTime);
     }
 
     public void StartRecord()

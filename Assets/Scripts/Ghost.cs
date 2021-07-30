@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
+    public Transform visualWheelFR;
+    public Transform visualWheelFL;
+    public Transform visualWheelRR;
+    public Transform visualWheelRL;
+
     PointInGhostTime fromPoint;
     PointInGhostTime toPoint;
     float recordPeriod;
@@ -61,5 +66,25 @@ public class Ghost : MonoBehaviour
         }
         transform.position = position;
         transform.rotation = rotation;
+    }
+
+    public void SetAllParametersToGhostByTimeInTrack(float timeInTrack)
+    {
+        if (!currentTrack.GetAllGhostParametersInPointTime(timeInTrack, out var position, out var rotation, out var posFR, out var rotFR, out var posFL, out var rotFL, out var posRR, out var rotRR, out var posRL, out var  rotRL))
+        {
+            Debug.Log("нет позиции");
+            return;
+        }
+        transform.position = position;
+        transform.rotation = rotation;
+
+        visualWheelFR.localPosition = posFR;
+        visualWheelFR.rotation = rotFR;
+        visualWheelFL.localPosition = posFL;
+        visualWheelFL.rotation = rotFL;
+        visualWheelRR.localPosition = posRR;
+        visualWheelRR.rotation = rotRR;
+        visualWheelRL.localPosition = posRL;
+        visualWheelRL.rotation = rotRL;
     }
 }

@@ -26,7 +26,7 @@ public class PointInGhostTime
         pointTime = timeOfPoint;
     }
 
-    public PointInGhostTime(Vector3 positionOfTarget, Quaternion rotationOfTarget, float timeOfPoint, Vector3 posFR, Quaternion rotFR)
+    public PointInGhostTime(Vector3 positionOfTarget, Quaternion rotationOfTarget, float timeOfPoint, Vector3 posFR, Quaternion rotFR, Vector3 posFL, Quaternion rotFL, Vector3 posRR, Quaternion rotRR, Vector3 posRL, Quaternion rotRL)
     {
         position = positionOfTarget;
         rotation = rotationOfTarget;
@@ -34,5 +34,11 @@ public class PointInGhostTime
 
         positionFR = posFR;
         rotationFR = rotFR;
+        positionFL = posFL;
+        rotationFL = rotFL;
+        positionRR = posRR;
+        rotationRR = rotRR;
+        positionRL = posRL;
+        rotationRL = rotRL;
     }
 }
