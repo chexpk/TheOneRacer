@@ -17,8 +17,20 @@ public class Track
         {
             startWorldTime = point.pointTime;
         }
+
+        var positionFR = point.positionFR;
+        var rotationFR = point.rotationFR;
+        var positionFL = point.positionFL;
+        var rotationFL = point.rotationFL;
+
+        var positionRR = point.positionRR;
+        var rotationRR = point.rotationRR;
+
+        var positionRL = point.positionRL;
+        var rotationRL = point.rotationRL;
+
         var pointTime = point.pointTime - startWorldTime;
-        track.Add(new PointInGhostTime(position, rotation, pointTime));
+        track.Add(new PointInGhostTime(position, rotation, pointTime, positionFR, rotationFR, positionFL, rotationFL, positionRR, rotationRR, positionRL, rotationRL));
     }
 
     public int Count()
@@ -95,12 +107,12 @@ public class Track
 
         posFR = new Vector3(0,0,0);
         rotFR = new Quaternion(0,0,0, 0);
-        posFL = new Vector3(0,0,0);;
-        rotFL = new Quaternion(0,0,0, 0);;
-        posRR = new Vector3(0,0,0);;
-        rotRR = new Quaternion(0,0,0, 0);;
-        posRL = new Vector3(0,0,0);;
-        rotRL = new Quaternion(0,0,0, 0);;
+        posFL = new Vector3(0,0,0);
+        rotFL = new Quaternion(0,0,0, 0);
+        posRR = new Vector3(0,0,0);
+        rotRR = new Quaternion(0,0,0, 0);
+        posRL = new Vector3(0,0,0);
+        rotRL = new Quaternion(0,0,0, 0);
 
         PointInGhostTime fromPoint;
         PointInGhostTime toPoint;
@@ -122,27 +134,31 @@ public class Track
         rotation = Quaternion.Lerp(fromPoint.rotation, toPoint.rotation, timeInPoint / durationTimeBetweenPoints);
 
         posFR = Vector3.Lerp(fromPoint.positionFR, toPoint.positionFR, timeInPoint / durationTimeBetweenPoints);
+        rotFR = Quaternion.Lerp(fromPoint.rotationFR, toPoint.rotationFR, timeInPoint / durationTimeBetweenPoints);
         // if (IsQuaternionInvalid(fromPoint.rotationFR) || IsQuaternionInvalid(toPoint.rotationFR))
         // {
         //     rotFR = Quaternion.Lerp(fromPoint.rotationFR, toPoint.rotationFR, timeInPoint / durationTimeBetweenPoints);
         // }
 
         posFL = Vector3.Lerp(fromPoint.positionFL, toPoint.positionFL, timeInPoint / durationTimeBetweenPoints);
+        rotFL = Quaternion.Lerp(fromPoint.rotationFL, toPoint.rotationFL, timeInPoint / durationTimeBetweenPoints);
         // if (IsQuaternionInvalid(fromPoint.rotationFL) || IsQuaternionInvalid(toPoint.rotationFL))
         // {
         //     rotFL = Quaternion.Lerp(fromPoint.rotationFL, toPoint.rotationFL, timeInPoint / durationTimeBetweenPoints);
         // }
 
         posRR = Vector3.Lerp(fromPoint.positionRR, toPoint.positionRR, timeInPoint / durationTimeBetweenPoints);
-        if (IsQuaternionInvalid(fromPoint.rotationRR) || IsQuaternionInvalid(toPoint.rotationRR))
+        rotRR = Quaternion.Lerp(fromPoint.rotationRR, toPoint.rotationRR, timeInPoint / durationTimeBetweenPoints);
+        // if (IsQuaternionInvalid(fromPoint.rotationRR) || IsQuaternionInvalid(toPoint.rotationRR))
         // {
         //     rotRR = Quaternion.Lerp(fromPoint.rotationRR, toPoint.rotationRR, timeInPoint / durationTimeBetweenPoints);
         // }
 
         posRL = Vector3.Lerp(fromPoint.positionRL, toPoint.positionRL, timeInPoint / durationTimeBetweenPoints);
+        rotRL = Quaternion.Lerp(fromPoint.rotationRL, toPoint.rotationRL, timeInPoint / durationTimeBetweenPoints);
         // if (IsQuaternionInvalid(fromPoint.rotationRL) || IsQuaternionInvalid(toPoint.rotationRL))
         // {
-        //     rotRR = Quaternion.Lerp(fromPoint.rotationRL, toPoint.rotationRL, timeInPoint / durationTimeBetweenPoints);
+        //     rotRL = Quaternion.Lerp(fromPoint.rotationRL, toPoint.rotationRL, timeInPoint / durationTimeBetweenPoints);
         // }
 
         return true;
