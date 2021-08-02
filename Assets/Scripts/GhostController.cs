@@ -21,6 +21,7 @@ public class GhostController : MonoBehaviour
 
     [SerializeField] Track ghostPointsInTime;
     [SerializeField] Track oldGhostPointsInTime;
+    [SerializeField] UIController uiController;
 
     bool isRecord = false;
     bool isReplaying = false;
@@ -98,6 +99,7 @@ public class GhostController : MonoBehaviour
             isRecord = true;
             nextActionTime = 0;
             ghostPointsInTime = new Track();
+            uiController.SetTimerStatus(true);
         }
         else
         {
@@ -108,6 +110,7 @@ public class GhostController : MonoBehaviour
             // Debug.Log(oldGhostPointsInTime.startWorldTime);
             // Debug.Log(oldGhostPointsInTime.GetTrackTime());
 
+            uiController.UpdateLastTime(oldGhostPointsInTime.GetTrackTime());
             ghostPointsInTime = new Track();
             indexInList = 0;
 
