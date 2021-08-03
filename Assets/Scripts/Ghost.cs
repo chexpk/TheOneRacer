@@ -72,7 +72,7 @@ public class Ghost : MonoBehaviour
     {
         if (!currentTrack.GetAllGhostParametersInPointTime(timeInTrack, out var position, out var rotation, out var posFR, out var rotFR, out var posFL, out var rotFL, out var posRR, out var rotRR, out var posRL, out var  rotRL))
         {
-            Debug.Log("нет позиции");
+            // Debug.Log("нет позиции");
             return;
         }
         transform.position = position;

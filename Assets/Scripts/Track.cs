@@ -119,7 +119,7 @@ public class Track
         PointInGhostTime toPoint;
         if (!GetNearestPoints(timeInTrack, out fromPoint, out toPoint))
         {
-            Debug.Log("не нашел в треке поинты");
+            // Debug.Log("не нашел в треке поинты");
             return false;
         }
 

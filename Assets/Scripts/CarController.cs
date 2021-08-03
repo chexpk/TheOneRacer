@@ -178,7 +178,7 @@ public class CarController : MonoBehaviour
             {
                 // var trace = Instantiate(traceTestObject, hit.point, Quaternion.identity);
                 // Destroy(trace, 5f);
-                Debug.Log("заносБОКОМ");
+                // Debug.Log("заносБОКОМ");
                 SwitchTraceParticles(true);
 
             }
@@ -191,7 +191,13 @@ public class CarController : MonoBehaviour
                 // var trace = Instantiate(traceTestObject, hit.point, Quaternion.identity);
                 // Destroy(trace, 5f);
                 // Debug.Log("заносПрямо");
+                SwitchTraceParticles(true);
+
             }
+            // else
+            // {
+            //     SwitchTraceParticles(false);
+            // }
         }
     }
 
@@ -206,7 +212,10 @@ public class CarController : MonoBehaviour
 
     void SwitchTraceParticles(bool enable)
     {
+        trailFR.emitting = enable;
+        trailFL.emitting = enable;
+        trailRR.emitting = enable;
         trailRL.emitting = enable;
-        Debug.Log($"меняем на {enable}");
+        // Debug.Log($"меняем на {enable}");
     }
 }
