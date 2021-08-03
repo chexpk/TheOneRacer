@@ -31696,6 +31696,27 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1516650204988753441, guid: dd08c14325b2c48d68724bb98517de91,
+        type: 3}
+      propertyPath: minSpeedForSmoke
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516650204988753441, guid: dd08c14325b2c48d68724bb98517de91,
+        type: 3}
+      propertyPath: minAngleForSmoke
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516650204988753441, guid: dd08c14325b2c48d68724bb98517de91,
+        type: 3}
+      propertyPath: traceTestObject
+      value: 
+      objectReference: {fileID: 3545791073011983907, guid: 1cc5cab3b713e4d58b12e56be4fa610c,
+        type: 3}
+    - target: {fileID: 1516650204988753441, guid: dd08c14325b2c48d68724bb98517de91,
+        type: 3}
+      propertyPath: minSidewaysSlip
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 2451301061736967828, guid: dd08c14325b2c48d68724bb98517de91,
         type: 3}
       propertyPath: m_LocalPosition.x

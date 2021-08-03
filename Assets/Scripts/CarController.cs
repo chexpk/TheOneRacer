@@ -17,6 +17,15 @@ public class CarController : MonoBehaviour
     public float minAngleForSmoke;
     public ParticleSystem[] tireSmokeEffects;
 
+    [Header("Trace From Tiers")]
+    public float minSidewaysSlip = 0.8f;
+    public float minForwardSlip = 1f;
+    public GameObject traceTestObject;
+    public TrailRenderer trailFR;
+    public TrailRenderer trailFL;
+    public TrailRenderer trailRL;
+    public TrailRenderer trailRR;
+
     [Range(0,1)]
     public float steerHelpValue = 0;
 
@@ -45,8 +54,11 @@ public class CarController : MonoBehaviour
         NitroManager();
         ManageHardBreak();
         EmitSmokeTiers();
+        EmitTraceTiers();
         SteerHelper();
     }
+
+
 
     void Accelerate()
     {
@@ -155,6 +167,34 @@ public class CarController : MonoBehaviour
         }
     }
 
+    void EmitTraceTiers()
+    {
+        // wheelCol.GetGroundHit(out WheelHit hit);
+        foreach (var wheelCol in wheelColliders)
+        {
+            wheelCol.GetGroundHit(out var hit);
+
+            if (hit.sidewaysSlip > minSidewaysSlip || hit.sidewaysSlip < -minSidewaysSlip)
+            {
+                // var trace = Instantiate(traceTestObject, hit.point, Quaternion.identity);
+                // Destroy(trace, 5f);
+                Debug.Log("заносБОКОМ");
+                SwitchTraceParticles(true);
+
+            }
+            else
+            {
+                SwitchTraceParticles(false);
+            }
+            if (hit.forwardSlip > minForwardSlip || hit.forwardSlip < -minForwardSlip)
+            {
+                // var trace = Instantiate(traceTestObject, hit.point, Quaternion.identity);
+                // Destroy(trace, 5f);
+                // Debug.Log("заносПрямо");
+            }
+        }
+    }
+
     void SwitchSmokeParticles(bool enable)
     {
         foreach (var ps in tireSmokeEffects)
@@ -162,5 +202,11 @@ public class CarController : MonoBehaviour
             ParticleSystem.EmissionModule psEm = ps.emission;
             psEm.enabled = enable;
         }
+    }
+
+    void SwitchTraceParticles(bool enable)
+    {
+        trailRL.emitting = enable;
+        Debug.Log($"меняем на {enable}");
     }
 }
