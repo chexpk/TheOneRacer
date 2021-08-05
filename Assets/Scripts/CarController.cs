@@ -17,15 +17,6 @@ public class CarController : MonoBehaviour
     public float minAngleForSmoke;
     public ParticleSystem[] tireSmokeEffects;
 
-    [Header("Trace From Tiers")]
-    public float minSidewaysSlip = 0.8f;
-    public float minForwardSlip = 1f;
-    public GameObject traceTestObject;
-    public TrailRenderer trailFR;
-    public TrailRenderer trailFL;
-    public TrailRenderer trailRL;
-    public TrailRenderer trailRR;
-
     [Range(0,1)]
     public float steerHelpValue = 0;
 
@@ -53,12 +44,8 @@ public class CarController : MonoBehaviour
         Accelerate();
         NitroManager();
         ManageHardBreak();
-        EmitSmokeTiers();
-        EmitTraceTiers();
         SteerHelper();
     }
-
-
 
     void Accelerate()
     {
@@ -75,18 +62,7 @@ public class CarController : MonoBehaviour
                 axle.rightWheel.motorTorque = carSpeed * vertInput;
                 axle.leftWheel.motorTorque = carSpeed * vertInput;
             }
-
-            VisualWheelsToColliders(axle.rightWheel, axle.visRightWheel);
-            VisualWheelsToColliders(axle.leftWheel, axle.visLeftWheel);
         }
-    }
-
-    void VisualWheelsToColliders(WheelCollider col, Transform visWheel)
-    {
-        col.GetWorldPose(out var position, out var rotation);
-
-        visWheel.position = position;
-        visWheel.rotation = rotation;
     }
 
     void SteerHelper()
@@ -145,77 +121,5 @@ public class CarController : MonoBehaviour
                 axle.leftWheel.brakeTorque = 0;
             }
         }
-    }
-
-    void EmitSmokeTiers() //GetGroundHit(out WheelHit hit) - чекнуть через этот метод
-    {
-        if (rb.velocity.magnitude > minSpeedForSmoke)
-        {
-            float angle = Quaternion.Angle(Quaternion.LookRotation(rb.velocity, Vector3.up), Quaternion.LookRotation(transform.forward, Vector3.up));
-            if (angle > minAngleForSmoke && angle < 160 && isOnground)
-            {
-                SwitchSmokeParticles(true);
-            }
-            else
-            {
-                SwitchSmokeParticles(false);
-            }
-        }
-        else
-        {
-            SwitchSmokeParticles(false);
-        }
-    }
-
-    void EmitTraceTiers()
-    {
-        // wheelCol.GetGroundHit(out WheelHit hit);
-        foreach (var wheelCol in wheelColliders)
-        {
-            wheelCol.GetGroundHit(out var hit);
-
-            if (hit.sidewaysSlip > minSidewaysSlip || hit.sidewaysSlip < -minSidewaysSlip)
-            {
-                // var trace = Instantiate(traceTestObject, hit.point, Quaternion.identity);
-                // Destroy(trace, 5f);
-                // Debug.Log("заносБОКОМ");
-                SwitchTraceParticles(true);
-
-            }
-            else
-            {
-                SwitchTraceParticles(false);
-            }
-            if (hit.forwardSlip > minForwardSlip || hit.forwardSlip < -minForwardSlip)
-            {
-                // var trace = Instantiate(traceTestObject, hit.point, Quaternion.identity);
-                // Destroy(trace, 5f);
-                // Debug.Log("заносПрямо");
-                SwitchTraceParticles(true);
-
-            }
-            // else
-            // {
-            //     SwitchTraceParticles(false);
-            // }
-        }
-    }
-
-    void SwitchSmokeParticles(bool enable)
-    {
-        foreach (var ps in tireSmokeEffects)
-        {
-            ParticleSystem.EmissionModule psEm = ps.emission;
-            psEm.enabled = enable;
-        }
-    }
-
-    void SwitchTraceParticles(bool enable)
-    {
-        trailFR.emitting = enable;
-        trailFL.emitting = enable;
-        trailRR.emitting = enable;
-        trailRL.emitting = enable;
-        // Debug.Log($"меняем на {enable}");
     }
 }
