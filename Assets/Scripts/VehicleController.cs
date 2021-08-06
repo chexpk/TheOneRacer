@@ -33,6 +33,13 @@ public class VehicleController : MonoBehaviour
 
     Rigidbody rb;
 
+    public float rpmEngine;
+
+    public float rpmRight;
+    public float rpmLeft;
+
+    public float motorTorque;
+
 
     private void Awake()
     {
@@ -64,11 +71,11 @@ public class VehicleController : MonoBehaviour
 
         foreach (var wheel in frontWheels)
         {
-            wheel.motorTorque = enginePower * accel;
+            wheel.motorTorque = motorTorque * accel * 5;
         }
         foreach (var wheel in rearWheels)
         {
-            wheel.motorTorque = enginePower * accel;
+            wheel.motorTorque = motorTorque * accel * 5;
         }
 
         // foreach (var wheel in frontWheels)
@@ -103,6 +110,53 @@ public class VehicleController : MonoBehaviour
 
     void Engine()
     {
+        rpmRight = rrWheels.rpm;
+        rpmLeft = rlWheels.rpm;
 
+        if (rpmRight >= rpmLeft)
+        {
+            rpmEngine = rpmRight;
+        }
+        else
+        {
+            rpmEngine = rpmLeft;
+        }
+
+        if (rpmEngine < 2700f)
+        {
+            motorTorque = 100f;
+        }
+        if (rpmEngine > 2700f && rpmEngine < 3200f)
+        {
+            motorTorque = 0.29f * rpmEngine - 683;
+        }
+        if (rpmEngine > 3200f && rpmEngine < 3700f)
+        {
+            motorTorque = (-0.09f) * rpmEngine - 43;
+        }
+        if (rpmEngine > 3700f && rpmEngine < 4200f)
+        {
+            motorTorque = (-0.01f) * rpmEngine + 372;
+        }
+        if (rpmEngine > 4200f && rpmEngine < 4700f)
+        {
+            motorTorque = 0.01f * rpmEngine + 243;
+        }
+        if (rpmEngine > 4700f && rpmEngine < 5200f)
+        {
+            motorTorque = (-0.02f) * rpmEngine + 384;
+        }
+        if (rpmEngine > 5200f && rpmEngine < 5700f)
+        {
+            motorTorque = (-0.01f) * rpmEngine + 800;
+        }
+        if (rpmEngine > 5700f && rpmEngine < 6200f)
+        {
+            motorTorque = (-0.01f) * rpmEngine + 800;
+        }
+        if (rpmEngine > 6200f && rpmEngine < 9000f)
+        {
+            motorTorque = (-0.06f) * rpmEngine + 552;
+        }
     }
 }

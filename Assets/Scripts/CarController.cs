@@ -12,11 +12,6 @@ public class CarController : MonoBehaviour
     public float nitroPower;
     public GameObject nitroEffects;
 
-    [Header("Smoke From Tiers")]
-    public float minSpeedForSmoke;
-    public float minAngleForSmoke;
-    public ParticleSystem[] tireSmokeEffects;
-
     [Range(0,1)]
     public float steerHelpValue = 0;
 
@@ -25,6 +20,8 @@ public class CarController : MonoBehaviour
     bool isOnground;
     float lastYRotation;
     Rigidbody rb;
+
+    public AudioSource audioSource;
 
     private void Awake()
     {
@@ -36,11 +33,20 @@ public class CarController : MonoBehaviour
         rb.centerOfMass = centerOfMass.localPosition;
     }
 
+    private void Update()
+    {
+        float speed = rb.velocity.magnitude;
+        audioSource.pitch = (speed / 2) + 0.1f;
+    }
+
     private void FixedUpdate()
     {
         horInput = Input.GetAxis("Horizontal");
         vertInput = Input.GetAxis("Vertical");
         CheckOnGround();
+
+
+
         Accelerate();
         NitroManager();
         ManageHardBreak();

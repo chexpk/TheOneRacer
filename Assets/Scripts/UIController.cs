@@ -10,14 +10,17 @@ public class UIController : MonoBehaviour
     [SerializeField] float lastTrackTime;
     [SerializeField] Text lastTime;
     [SerializeField] Text currentTime;
+    [SerializeField] Text bestTime;
+    int numberOfTrack = 1;
     bool isTimerWork;
+    [SerializeField] private List<float> allTracks;
 
     void Start()
     {
-
+        lastTime.text = "";
+        allTracks = new List<float>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!isTimerWork) return;
@@ -29,16 +32,48 @@ public class UIController : MonoBehaviour
     {
         UpdateCurrentTime();
         lastTrackTime = timeFromReplayingTrack;
-        lastTime.text = lastTrackTime.ToString("0.00");
-    }
-
-    public void UpdateCurrentTime()
-    {
-        currentTrackTime = 0f;
+        AddTimeToList(lastTrackTime);
+        lastTime.text += ($"{numberOfTrack}. " +lastTrackTime.ToString("0.00") + "\n");
+        numberOfTrack += 1;
+        ShowMinimalTime();
     }
 
     public void SetTimerStatus(bool status)
     {
         isTimerWork = status;
+    }
+
+    void UpdateCurrentTime()
+    {
+        currentTrackTime = 0f;
+    }
+
+    void AddTimeToList(float time)
+    {
+        allTracks.Add(time);
+    }
+
+    void ShowMinimalTime()
+    {
+        var time = GetMinimalTime();
+        bestTime.text = time.ToString("0.00");
+    }
+
+    float GetMinimalTime()
+    {
+        float result = 0;
+        foreach (var time in allTracks)
+        {
+            if (result == 0)
+            {
+                result = time;
+            }
+
+            if (time < result)
+            {
+                result = time;
+            }
+        }
+        return result;
     }
 }
