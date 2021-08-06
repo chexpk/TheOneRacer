@@ -110,6 +110,7 @@ public class CarController : MonoBehaviour
     {
         foreach(var axle in carAxis)
         {
+            if (!axle.hardBreak) continue;
             if(Input.GetKey(KeyCode.Space))
             {
                 axle.rightWheel.brakeTorque = 50000;

@@ -9024,7 +9024,7 @@ GameObject:
   - component: {fileID: 655256133}
   - component: {fileID: 655256132}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: ParticleSystemRL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14619,7 +14619,7 @@ GameObject:
   - component: {fileID: 779607386}
   - component: {fileID: 779607385}
   m_Layer: 0
-  m_Name: Particle System (2)
+  m_Name: ParticleSystemFL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19977,7 +19977,7 @@ GameObject:
   - component: {fileID: 896429752}
   - component: {fileID: 896429751}
   m_Layer: 0
-  m_Name: Particle System (1)
+  m_Name: ParticleSystem RR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25290,12 +25290,14 @@ MonoBehaviour:
     visLeftWheel: {fileID: 8643398292271229293}
     steering: 1
     motor: 1
+    hardBreak: 0
   - rightWheel: {fileID: 7476713858460000965}
     leftWheel: {fileID: 3839376721144352960}
     visRightWheel: {fileID: 1269373431148701602}
     visLeftWheel: {fileID: 1784994809576513123}
     steering: 0
     motor: 1
+    hardBreak: 1
   wheelColliders:
   - {fileID: 5974248467371596589}
   - {fileID: 5871296778127576127}
@@ -25313,14 +25315,6 @@ MonoBehaviour:
   - {fileID: 896429752}
   - {fileID: 779607386}
   - {fileID: 1089521728}
-  minSidewaysSlip: 0.5
-  minForwardSlip: 0.7
-  traceTestObject: {fileID: 3545791073011983907, guid: 1cc5cab3b713e4d58b12e56be4fa610c,
-    type: 3}
-  trailFR: {fileID: 179372170}
-  trailFL: {fileID: 1062427822}
-  trailRL: {fileID: 372281991}
-  trailRR: {fileID: 1249466181}
   steerHelpValue: 0.65
 --- !u!1 &1009290763
 GameObject:
@@ -25738,7 +25732,7 @@ GameObject:
   - component: {fileID: 1089521728}
   - component: {fileID: 1089521727}
   m_Layer: 0
-  m_Name: Particle System (3)
+  m_Name: ParticleSystemFR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61241,6 +61235,7 @@ GameObject:
   - component: {fileID: 7054298239569796141}
   - component: {fileID: 5206865123857222135}
   - component: {fileID: 4952373755739827573}
+  - component: {fileID: 1147151917950143114}
   m_Layer: 0
   m_Name: FR_Wheel
   m_TagString: Untagged
@@ -61248,6 +61243,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1147151917950143114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147151917950143113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e573503451f4293849a0578e67eb7b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelCollider: {fileID: 5974248467371596589}
+  visWheel: {fileID: 7054298239569796141}
+  smokeParticle: {fileID: 1089521728}
+  minSidewaysSlipForSmoke: 0.8
+  minForwardSlipForSmoke: 0.9
+  trailRenderer: {fileID: 179372170}
+  minSidewaysSlipForTrace: 1
+  minForwardSlipForTrace: 1
 --- !u!4 &1269373431148701602
 Transform:
   m_ObjectHideFlags: 0
@@ -61288,6 +61303,7 @@ GameObject:
   - component: {fileID: 1269373431148701602}
   - component: {fileID: 8763728673846489830}
   - component: {fileID: 7669330932460895689}
+  - component: {fileID: 1871665918939301910}
   m_Layer: 0
   m_Name: RR_Wheel
   m_TagString: Untagged
@@ -61295,6 +61311,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1871665918939301910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871665918939301909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e573503451f4293849a0578e67eb7b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelCollider: {fileID: 7476713858460000965}
+  visWheel: {fileID: 1269373431148701602}
+  smokeParticle: {fileID: 896429752}
+  minSidewaysSlipForSmoke: 0.8
+  minForwardSlipForSmoke: 0.9
+  trailRenderer: {fileID: 1249466181}
+  minSidewaysSlipForTrace: 1
+  minForwardSlipForTrace: 1
 --- !u!1 &1968002495820572188
 GameObject:
   m_ObjectHideFlags: 0
@@ -61304,6 +61340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1784994809576513123}
+  - component: {fileID: 1968002495820572189}
   m_Layer: 0
   m_Name: RL_Wheel
   m_TagString: Untagged
@@ -61311,6 +61348,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1968002495820572189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968002495820572188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e573503451f4293849a0578e67eb7b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelCollider: {fileID: 3839376721144352960}
+  visWheel: {fileID: 1784994809576513123}
+  smokeParticle: {fileID: 655256133}
+  minSidewaysSlipForSmoke: 0.8
+  minForwardSlipForSmoke: 0.9
+  trailRenderer: {fileID: 372281991}
+  minSidewaysSlipForTrace: 1
+  minForwardSlipForTrace: 1
 --- !u!4 &2055433982036040976
 Transform:
   m_ObjectHideFlags: 0
@@ -61334,6 +61391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8643398292271229293}
+  - component: {fileID: 2255599089429295924}
   m_Layer: 0
   m_Name: FL_Wheel
   m_TagString: Untagged
@@ -61341,6 +61399,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2255599089429295924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255599089429295923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e573503451f4293849a0578e67eb7b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelCollider: {fileID: 5871296778127576127}
+  visWheel: {fileID: 8643398292271229293}
+  smokeParticle: {fileID: 779607386}
+  minSidewaysSlipForSmoke: 0.8
+  minForwardSlipForSmoke: 0.9
+  trailRenderer: {fileID: 1062427822}
+  minSidewaysSlipForTrace: 1
+  minForwardSlipForTrace: 1
 --- !u!33 &2521767054922425389
 MeshFilter:
   m_ObjectHideFlags: 0

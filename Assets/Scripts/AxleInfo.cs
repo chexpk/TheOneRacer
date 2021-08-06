@@ -11,4 +11,5 @@ public class AxleInfo
 
     public bool steering;
     public bool motor;
+    public bool hardBreak;
 }

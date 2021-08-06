@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class Wheel : MonoBehaviour
 {
-    public WheelCollider wheelCollider;
-    public Transform visWheel;
+    [SerializeField] WheelCollider wheelCollider;
+    [SerializeField]  Transform visWheel;
 
     [Header("Smoke From Tier")]
-    public ParticleSystem smokeParticle;
-    public float minSidewaysSlipForSmoke = 0.8f;
-    public float minForwardSlipForSmoke = 0.9f;
+    [SerializeField]  ParticleSystem smokeParticle;
+    [SerializeField]  float minSidewaysSlipForSmoke = 0.8f;
+    [SerializeField]  float minForwardSlipForSmoke = 0.9f;
 
     [Header("Trace From Tier")]
-    public TrailRenderer trailRenderer;
-    public float minSidewaysSlipForTrace = 1f;
-    public float minForwardSlipForTrace = 1f;
+    [SerializeField]  TrailRenderer trailRenderer;
+    [SerializeField]  float minSidewaysSlipForTrace = 1f;
+    [SerializeField]  float minForwardSlipForTrace = 1f;
 
     private void Update()
     {

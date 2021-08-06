@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class VehicleController : MonoBehaviour
 {
-
     [Header("Controls")]
     public float accel;
     public float brake;
